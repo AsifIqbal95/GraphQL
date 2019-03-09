@@ -88,7 +88,7 @@ const Mutation={
         const deletedComment = db.comments.splice(commentIndex,1);
         return deletedComment[0] 
     },
-    createComment(parent, args, {db}, info) {
+    createComment(parent, args, {db,pubsub}, info) {
         const isUserExist = db.users.some((user) => {
             return user.id == args.data.author
         });
@@ -101,6 +101,9 @@ const Mutation={
             ...args.data
         };
         db.comments.push(comment)
+        pubsub.publish(`comment ${args.data.post}`,{
+            comment
+        })
         return comment
     },
     createUser(parent, args, {db}, info) {
@@ -115,7 +118,7 @@ const Mutation={
         db.users.push(user);
         return user;
     },
-    createPost(parent, args, {db}, info) {
+    createPost(parent, args, {db,pubsub}, info) {
         const isUserExist = db.users.some((user) => user.id == args.data.author)
         if (!isUserExist) {
             throw new Error('User Doesnt Exist!!!')
@@ -126,6 +129,11 @@ const Mutation={
         }
 
         db.posts.push(post)
+        if(post.published){
+            pubsub.publish('post',{
+                post
+            })
+        }
         return post
     }
 }

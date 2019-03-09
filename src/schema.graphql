@@ -17,6 +17,11 @@ type Mutation{
     updateComment(id:ID!,data:UpdateComment!):Comment!
 }
 
+type Subscription{
+    comment(postId:ID):Comment
+    post:Post!
+}
+
 input UpdateUser{
     name:String
     email:String
