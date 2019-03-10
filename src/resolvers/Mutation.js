@@ -11,7 +11,7 @@ const Mutation={
             comment.text = data.text
         }
         pubsub.publish(`comment ${comment.post}`,{
-            comment:{mutation:'Updated',
+            comment:{mutation:'UPDATED',
                 data:comment}
         })
         return comment
@@ -34,20 +34,20 @@ const Mutation={
 
             if(originalPost.published && !post.published){
                 pubsub.publish('post',{
-                    post: {mutation:'Deleted',
+                    post: {mutation:'DELETED',
                      data:post}
                  })
             }
             else if(!originalPost.published && post.published){
                 pubsub.publish('post',{
-                    post: {mutation:'Created',
+                    post: {mutation:'CREATED',
                      data:post}
                  })
             }
         }
        else if(post.published){
             pubsub.publish('post',{
-               post: {mutation:'Updated',
+               post: {mutation:'UPDATED',
                 data:post}
             })
         }
@@ -103,7 +103,7 @@ const Mutation={
         });
         if(post.published){
             pubsub.publish('post',{
-               post: {mutation:'deleted',
+               post: {mutation:'DELETED',
                 data:post}
             })
         }
@@ -116,7 +116,7 @@ const Mutation={
         }
         const [comment] = db.comments.splice(commentIndex,1);
         pubsub.publish(`comment ${comment.post}`,{
-            comment:{mutation:'Deleted',
+            comment:{mutation:'DELETED',
                 data:comment}
         })
         return comment 
@@ -135,7 +135,7 @@ const Mutation={
         };
         db.comments.push(comment)
         pubsub.publish(`comment ${args.data.post}`,{
-            comment:{mutation:'Created',
+            comment:{mutation:'CREATED',
                 data:comment}
         })
         return comment
@@ -165,7 +165,7 @@ const Mutation={
         db.posts.push(post)
         if(post.published){
             pubsub.publish('post',{
-               post: {mutation:'Created',
+               post: {mutation:'CREATED',
                 data:post}
             })
         }

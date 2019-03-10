@@ -23,12 +23,12 @@ type Subscription{
 }
 
 type CommentSubscriptionPayLoad{
-    mutation:String!
+    mutation:MutationType!
     data:Comment!
 }
 
 type PostSubscriptionPayLoad{
-    mutation:String!
+    mutation:MutationType!
     data:Post!
 }
 
@@ -88,4 +88,10 @@ type User{
     age:Int,
     posts:[Post!]!
     comments:[Comment!]!
+}
+
+enum MutationType{
+    CREATED
+    UPDATED
+    DELETED
 }
