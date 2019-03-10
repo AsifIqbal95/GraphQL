@@ -18,8 +18,18 @@ type Mutation{
 }
 
 type Subscription{
-    comment(postId:ID):Comment
-    post:Post!
+    comment(postId:ID):CommentSubscriptionPayLoad!
+    post:PostSubscriptionPayLoad!
+}
+
+type CommentSubscriptionPayLoad{
+    mutation:String!
+    data:Comment!
+}
+
+type PostSubscriptionPayLoad{
+    mutation:String!
+    data:Post!
 }
 
 input UpdateUser{
